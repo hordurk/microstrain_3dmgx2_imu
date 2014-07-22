@@ -4,7 +4,7 @@ project(microstrain_3dmgx2_imu)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS message_generation roscpp sensor_msgs self_test diagnostic_updater tf std_srvs std_msgs)
+find_package(catkin REQUIRED COMPONENTS message_generation roscpp sensor_msgs self_test diagnostic_updater tf std_srvs std_msgs geometry_msgs)
 
 find_library(LOG4CXX_LIBRARY log4cxx)
 if(NOT LOG4CXX_LIBRARY)
@@ -54,7 +54,7 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES 3dmgx2 ${LOG4CXX_LIBRARY}
-  CATKIN_DEPENDS message_runtime roscpp sensor_msgs self_test diagnostic_updater tf std_srvs std_msgs
+  CATKIN_DEPENDS message_runtime roscpp sensor_msgs self_test diagnostic_updater tf std_srvs std_msgs geometry_msgs
   DEPENDS
 )
 
@@ -70,9 +70,9 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 add_library(3dmgx2 src/3dmgx2.cc)
 
 ## Declare a cpp executable
-add_executable(imu_node src/imu_node.cc)
-target_link_libraries(imu_node 3dmgx2 ${catkin_LIBRARIES})
-add_dependencies(imu_node microstrain_3dmgx2_imu_gencpp)
+add_executable(imu_node_with_mag src/imu_node.cc)
+target_link_libraries(imu_node_with_mag 3dmgx2 ${catkin_LIBRARIES})
+add_dependencies(imu_node_with_mag microstrain_3dmgx2_imu_gencpp)
 
 # Utility to recover ID from IMU
 add_executable(get_id src/get_id.cpp)
@@ -102,7 +102,7 @@ target_link_libraries(get_id 3dmgx2 ${catkin_LIBRARIES} ${LOG4CXX_LIBRARY})
 # )
 
 ## Mark executables and/or libraries for installation
-install(TARGETS 3dmgx2 imu_node get_id
+install(TARGETS 3dmgx2 imu_node_with_mag get_id
    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
