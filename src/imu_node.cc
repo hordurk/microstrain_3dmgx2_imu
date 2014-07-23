@@ -132,7 +132,7 @@ public:
 
     publish_is_calibrated();
 
-    cmd = microstrain_3dmgx2_imu::IMU::CMD_ACCEL_ANGRATE_ORIENT;
+    cmd = microstrain_3dmgx2_imu::IMU::CMD_ACCEL_ANGRATE_MAG_ORIENT;
 
     running = false;
 
@@ -664,7 +664,7 @@ public:
     imu.initGyros(&bias_x_, &bias_y_, &bias_z_);
 
     // check calibration
-    if (!imu.setContinuous(microstrain_3dmgx2_imu::IMU::CMD_ACCEL_ANGRATE_ORIENT)){
+    if (!imu.setContinuous(microstrain_3dmgx2_imu::IMU::CMD_ACCEL_ANGRATE_MAG_ORIENT)){
       ROS_ERROR("Could not start streaming data to verify calibration");
     }
     else {
